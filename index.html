@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Aldana Rodriguez: brain dumping. Projects, notes and what I am doing now.">
+<title>Aldana Rodriguez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Ledger: one readable column of serif text, mono metadata lines. Ink on paper, no colour accent; links are underlined ink. Views switch by #hash. */
+:root {
+  --bg: #FFFFFF;
+  --fg: #1B1A19;
+  --body: #363432;
+  --muted: #5F5C58;
+  --rule: #E3E1DE;
+  --panel: #F4F4F3;
+  --accent: #1B1A19;
+  --accent-hover: #000000;
+  --on-accent: #FFFFFF;
+  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --fg: #ECEAE7; --body: #D2CFCB; --muted: #A09C97; --rule: #2E2D2B;
+    --panel: #1E1E1D; --accent: #ECEAE7; --accent-hover: #FFFFFF; --on-accent: #161615;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --fg: #ECEAE7; --body: #D2CFCB; --muted: #A09C97; --rule: #2E2D2B;
+  --panel: #1E1E1D; --accent: #ECEAE7; --accent-hover: #FFFFFF; --on-accent: #161615;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 18px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent-hover); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 600; line-height: 1.2; color: var(--fg); }
+p { margin: 0; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--mono); }
+.label { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.meta { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); line-height: 1.7; }
+.lede { font-size: 1.15rem; line-height: 1.6; color: var(--body); max-width: 40em; }
+.prose { max-width: 38em; display: flex; flex-direction: column; gap: 1.1em; color: var(--body); font-size: 1.1rem; line-height: 1.7; }
+.prose h2 { font-size: 1.5rem; margin-top: 0.8em; }
+.prose ul, .prose ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 0.4em; }
+.stack { display: flex; flex-direction: column; }
+
+/* header */
+.site-header { border-bottom: 1px solid var(--rule); }
+.site-header .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px 24px; padding-block: 26px; }
+.wordmark { font-size: 1.55rem; font-weight: 600; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; }
+.wordmark:hover { color: var(--fg); }
+.nav { display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: var(--mono); font-size: 0.78rem; }
+.nav a { color: var(--fg); text-decoration: none; padding-block: 4px; border-bottom: 1px solid transparent; }
+.nav a:hover { color: var(--accent); }
+.nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+.theme { display: inline-flex; align-items: baseline; gap: 6px; color: var(--muted); padding-left: 10px; border-left: 1px solid var(--rule); }
+.theme button { font: inherit; color: var(--muted); background: none; border: 0; padding: 4px 2px; min-height: 32px; cursor: pointer; border-bottom: 1px solid transparent; }
+.theme button:hover { color: var(--fg); }
+.theme button[aria-pressed="true"] { color: var(--fg); border-bottom-color: var(--fg); }
+
+main .wrap { padding-block: 56px 72px; }
+.view { display: flex; flex-direction: column; gap: 56px; }
+.page-head { display: flex; flex-direction: column; gap: 14px; max-width: 44em; }
+.page-head h1 { font-size: clamp(2rem, 5vw, 2.7rem); letter-spacing: -0.02em; line-height: 1.12; }
+
+/* home hero */
+.hero { display: flex; flex-direction: column; gap: 18px; max-width: 42em; }
+.hero h1 { font-size: clamp(2.1rem, 5.5vw, 3rem); letter-spacing: -0.02em; line-height: 1.1; }
+.hero .subtitle { font-size: clamp(1.3rem, 3vw, 1.6rem); font-style: italic; color: var(--muted); line-height: 1.3; margin-top: -8px; }
+
+/* confidence scale */
+.scale { background: var(--panel); border-radius: 6px; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.ladder { display: flex; flex-direction: column; max-width: 30em; font-family: var(--mono); font-size: 0.76rem; color: var(--fg); font-variant-numeric: tabular-nums; }
+.ladder .step { display: grid; grid-template-columns: 9.5em 3.5em minmax(0, 1fr); align-items: center; gap: 12px; padding-block: 7px; border-top: 1px solid var(--rule); }
+.ladder .step:last-child { border-bottom: 1px solid var(--rule); }
+.ladder .pct { color: var(--muted); }
+.bar { height: 4px; background: var(--rule); overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--fg); }
+.scale p { font-size: 0.92rem; color: var(--muted); }
+
+/* two column */
+.split { display: flex; flex-wrap: wrap; gap: 48px 56px; align-items: flex-start; }
+.split > .main { flex: 999 1 540px; min-width: 0; }
+.split > .side { flex: 1 1 290px; min-width: 0; display: flex; flex-direction: column; gap: 36px; }
+.section-title { font-size: 1.5rem; }
+
+/* post list */
+.posts { display: flex; flex-direction: column; margin-top: 6px; }
+.post-row { display: flex; flex-wrap: wrap; gap: 6px 24px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+.post-row .date { flex: 0 0 88px; font-family: var(--mono); font-size: 0.74rem; color: var(--muted); padding-top: 5px; font-variant-numeric: tabular-nums; }
+.post-row .body { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.post-row h3 { font-size: 1.25rem; line-height: 1.3; }
+.post-row h3 a { color: var(--fg); text-decoration: none; }
+.post-row h3 a:hover { color: var(--accent); }
+.post-row .sum { font-size: 1rem; color: var(--body); }
+.post-row.planned h3 { color: var(--muted); font-weight: 400; font-style: italic; }
+.more { font-family: var(--mono); font-size: 0.8rem; margin-top: 18px; }
+
+/* boxes */
+.box { border: 1px solid var(--rule); border-radius: 6px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+.box-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.box h2 { font-size: 1.3rem; }
+.box ul { margin: 0; padding-left: 1.2em; color: var(--body); font-size: 1rem; display: flex; flex-direction: column; gap: 6px; }
+
+.proj-card { display: flex; flex-direction: column; gap: 6px; padding-block: 16px; border-top: 1px solid var(--rule); color: var(--fg); text-decoration: none; }
+.proj-card:hover .name { text-decoration: underline; }
+.proj-card .t { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.proj-card .name { font-size: 1.12rem; font-weight: 600; }
+.proj-card .tag { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+.proj-card p { font-size: 0.97rem; color: var(--body); }
+
+.honest { border-top: 1px solid var(--rule); padding-top: 40px; display: flex; flex-direction: column; gap: 22px; }
+
+/* article */
+.status { background: var(--panel); border-radius: 6px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; max-width: 38em; }
+.status .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 3px 10px; background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; font-family: var(--mono); font-size: 0.7rem; color: var(--fg); }
+.pill .bar { width: 38px; }
+.status p { color: var(--body); font-size: 1rem; }
+.cmm { max-width: 38em; border: 1px solid var(--rule); border-radius: 6px; padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+.cmm h2 { font-size: 1.2rem; }
+.cmm ul { margin: 0; padding-left: 1.2em; color: var(--body); display: flex; flex-direction: column; gap: 6px; font-size: 1.02rem; }
+.log { max-width: 38em; font-family: var(--mono); font-size: 0.76rem; display: flex; flex-direction: column; }
+.log .r { display: flex; flex-wrap: wrap; gap: 4px 24px; padding-block: 10px; border-top: 1px solid var(--rule); }
+.log .r:last-child { border-bottom: 1px solid var(--rule); }
+.log .r span:first-child { flex: 0 0 96px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.log .r span:last-child { flex: 1 1 260px; min-width: 0; color: var(--fg); }
+
+/* projects page */
+.project { display: flex; flex-direction: column; gap: 16px; padding-top: 36px; border-top: 1px solid var(--rule); }
+.project:first-of-type { border-top: 0; padding-top: 0; }
+.project h2 { font-size: 1.7rem; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px 24px; max-width: 44em; }
+.facts div { display: flex; flex-direction: column; gap: 2px; }
+.facts dt { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-size: 1rem; color: var(--fg); }
+.findings { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; color: var(--body); max-width: 38em; }
+.todo { color: var(--muted); font-style: italic; }
+
+/* contact */
+.contact { display: flex; flex-direction: column; gap: 10px; max-width: 38em; }
+.copyrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.copyrow code { font-family: var(--mono); font-size: 0.9rem; background: var(--panel); padding: 8px 12px; border-radius: 4px; user-select: all; overflow-wrap: anywhere; }
+.btn { min-height: 44px; padding: 0 18px; font-family: var(--mono); font-size: 0.8rem; color: var(--on-accent); background: var(--accent); border: 0; border-radius: 4px; cursor: pointer; }
+.btn:hover { background: var(--accent-hover); }
+
+.empty { background: var(--panel); border-radius: 6px; padding: 28px; max-width: 38em; display: flex; flex-direction: column; gap: 8px; }
+.empty .big { font-size: 1.2rem; font-weight: 600; color: var(--fg); }
+.empty p { color: var(--body); }
+
+footer { border-top: 1px solid var(--rule); background: var(--panel); }
+footer .wrap { padding-block: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; font-family: var(--mono); font-size: 0.74rem; color: var(--muted); }
+footer a { color: var(--muted); }
+footer nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="#home">Aldana Rodriguez</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#writing" data-nav="writing">Writing</a>
+      <a href="#projects" data-nav="projects">Projects</a>
+      <a href="#now" data-nav="now">Now</a>
+      <a href="#about" data-nav="about">About</a>
+      <a href="#mistakes" data-nav="mistakes">Mistakes</a>
+      <span class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <span aria-hidden="true">/</span>
+        <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- HOME -->
+<section class="view" id="view-home" data-view="home">
+  <div class="hero">
+    <h1>Aldana Rodriguez</h1>
+    <p class="subtitle">Brain dumping</p>
+    <p class="lede">Welcome to my digital mind. Not sure yet how this website will look like in the future.</p>
+  </div>
+
+  <div class="split">
+    <section class="main stack" aria-labelledby="proj-h" style="gap:6px">
+      <h2 id="proj-h" class="section-title">Projects</h2>
+      <a class="proj-card" href="#projects">
+        <span class="t"><span class="name">AnkiQuest</span><span class="tag">Sep 2026</span></span>
+        <p>A gamified fork of Anki, aimed at increasing usage and retention. This will soon go public for everyone to use, I'll link it here as soon as that happens.</p>
+        <span class="meta">Kotlin · Android · AI-assisted</span>
+      </a>
+      <a class="proj-card" href="#projects">
+        <span class="t"><span class="name">Script Kiddie Uplift</span><span class="tag">ICLR 2026</span></span>
+        <p>How mid-2025 LLM-generated code uplifts novice attackers.</p>
+        <span class="meta">Research · co-author</span>
+      </a>
+      <p class="more"><a href="#projects">All projects</a></p>
+    </section>
+
+    <aside class="side">
+      <section class="box" aria-labelledby="now-h">
+        <div class="box-head"><h2 id="now-h">Now</h2><span class="meta">updated Oct 2026</span></div>
+        <ul>
+          <li>Leading LinkedIn's Agentic Pod: RL environments, gyms and agentic data</li>
+          <li>Building a network of mental healthcare professionals aimed at people that work in AI Safety</li>
+          <li>Finishing my B.S. in Computer Science (due Jan 2027)</li>
+          <li>Building this site</li>
+        </ul>
+        <a class="meta" href="#now">More on what I'm doing now</a>
+      </section>
+    </aside>
+  </div>
+
+  <section class="honest" aria-labelledby="acct-h">
+    <h2 id="acct-h" class="section-title">Keeping myself honest</h2>
+    <div class="posts" style="max-width:46em; margin-top:0">
+      <div class="post-row"><span class="date">Errors</span><div class="body"><h3><a href="#mistakes">Mistakes</a></h3><p class="sum">Things I got wrong, dated, with what changed. Corrections welcome.</p></div></div>
+      <div class="post-row"><span class="date">Yearly</span><div class="body"><h3><a href="#predictions">Predictions</a></h3><p class="sum">Published each January, scored for calibration the next. First list: January 2027.</p></div></div>
+      <div class="post-row"><span class="date">Log</span><div class="body"><h3><a href="#changelog">Changelog</a></h3><p class="sum">Every new page and revision, newest first.</p></div></div>
+    </div>
+  </section>
+</section>
+
+<!-- WRITING -->
+<section class="view" id="view-writing" data-view="writing" hidden>
+  <div class="page-head">
+    <p class="label">Writing</p>
+    <h1>Writing</h1>
+  </div>
+  <div class="empty">
+    <p class="big">Nothing here yet.</p>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="view" id="view-projects" data-view="projects" hidden>
+  <div class="page-head">
+    <p class="label">Projects</p>
+    <h1>Things I've built and studied</h1>
+  </div>
+
+  <section class="project" aria-labelledby="p1">
+    <p class="label">Software · Sep 2026</p>
+    <h2 id="p1">AnkiQuest</h2>
+    <p class="lede">A gamified fork of Anki, aimed at increasing usage and retention. This will soon go public for everyone to use, I'll link it here as soon as that happens.</p>
+    <dl class="facts">
+      <div><dt>Stack</dt><dd>Kotlin, Android</dd></div>
+      <div><dt>Built with</dt><dd>AI coding assistants</dd></div>
+    </dl>
+    <div class="prose" style="font-size:1.02rem">
+      <p><strong>What I built.</strong></p>
+      <ul>
+        <li>Native AnkiQuest screens, a notification inbox and a review heatmap.</li>
+        <li>Account-scoped sign-in and safeguards on in-app web navigation.</li>
+        <li>Regression tests for account changes, redirects and credential handling.</li>
+        <li>Fixes for app lifecycle, build and lint issues in a large inherited codebase.</li>
+      </ul>
+      <p>I intend on writing a post going into more detail soon.</p>
+    </div>
+  </section>
+
+  <section class="project" aria-labelledby="p2">
+    <p class="label">Research · ICLR 2026 workshop</p>
+    <h2 id="p2">Script Kiddie Uplift</h2>
+    <p class="lede">We study how mid-2025 LLM-generated code uplifts novice attackers, and whether models assist harmful goals when requests are decomposed into benign substeps.</p>
+    <dl class="facts">
+      <div><dt>Venue</dt><dd>ICLR 2026, Agents in the Wild workshop</dd></div>
+      <div><dt>Authors</dt><dd>Che, Poveda, Rodriguez, He, Zhang, Wang, Sehwag</dd></div>
+      <div><dt>My role</dt><dd>Research operations, data gathering, quality assurance</dd></div>
+    </dl>
+    <ul class="findings">
+      <li>Step-by-step interactions rarely trigger refusal, even when the same models recognize safety concerns in separate evaluation.</li>
+      <li>Code-assisted novices progressed nearly one additional step further on average than an internet-only baseline.</li>
+      <li>Weaker performers benefited disproportionately, closing on average 47% of the gap to top performers.</li>
+    </ul>
+    <p class="meta"><a href="https://openreview.net/forum?id=rdiA3vx0Ij">Read the paper on OpenReview</a></p>
+    <p class="lede" style="font-size:1.05rem">If you think I could help with your research, do let me know!</p>
+  </section>
+
+  <section class="project" aria-labelledby="p3">
+    <p class="label">Earlier · machine learning notebooks</p>
+    <h2 id="p3">Learning experiments</h2>
+    <ul class="findings">
+      <li><a href="https://github.com/AldanaBRZ/bert-text-classification">BERT text classification</a>: fine-tuning BERT with TensorFlow.</li>
+      <li><a href="https://github.com/AldanaBRZ/english2french">English to French translator</a>: a sequence model built with LSTMs.</li>
+      <li><a href="https://github.com/AldanaBRZ/life-expectancy-predictions">Life expectancy predictions</a>: linear regression on country data.</li>
+    </ul>
+  </section>
+</section>
+
+<!-- NOW -->
+<section class="view" id="view-now" data-view="now" hidden>
+  <div class="page-head">
+    <p class="label">Now · updated October 2026</p>
+    <h1>What I'm focused on</h1>
+    <p class="lede">A short - non exhaustive - list of current priorities. If it isn't here and you think it should, please reach out to me!</p>
+  </div>
+  <div class="prose">
+    <ul>
+      <li>Leading LinkedIn's Agentic Pod, which builds reinforcement-learning environments, gyms and other agentic data.</li>
+      <li>Building a network of mental healthcare professionals aimed at people that work in AI Safety.</li>
+      <li>Finishing a B.S. in Computer Science at the University of the People, due January 2027.</li>
+      <li>Getting this site going</li>
+      <li>Thinking about how I can best help AI go well.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="view" id="view-about" data-view="about" hidden>
+  <div class="page-head">
+    <p class="label">About</p>
+    <h1>About me</h1>
+  </div>
+  <div class="prose">
+    <p>I'm Aldana, Argentine born and raised but now based in Berlin. I'm the head of the Agentic Pod at LinkedIn AI, where I lead data programs for reinforcement-learning environments and agentic workflows. Before that I ran human-data programs for frontier AI labs at Scale AI, including a cybersecurity research project with more than 50 PhD candidates.</p>
+    <p>What I care about most is reducing (and ultimately ending) suffering of all sentient creatures. This includes animal welfare, but also reducing the risks that come with AGI and ASI.</p>
+    <p>I've taken the <a href="https://www.givingwhatwecan.org/">Giving What We Can 10% Pledge</a>: every month I donate 10% of my salary through <a href="https://www.effektiv-spenden.org/">Effektiv Spenden</a>.</p>
+  </div>
+
+  <section class="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h" class="section-title">Contact</h2>
+    <div class="copyrow">
+      <code id="email-text">aldanabrz@gmail.com</code>
+      <button class="btn" type="button" id="copy-email">Copy email</button>
+      <span class="meta" id="copy-msg" role="status"></span>
+    </div>
+    <p class="meta"><a href="https://github.com/AldanaBRZ">GitHub</a> · <a href="https://www.linkedin.com/in/aldanabrz">LinkedIn</a> · <a href="https://x.com/AldanaBRZ">X (Twitter)</a></p>
+  </section>
+</section>
+
+<!-- MISTAKES -->
+<section class="view" id="view-mistakes" data-view="mistakes" hidden>
+  <div class="page-head">
+    <p class="label">Mistakes</p>
+    <h1>Things I got wrong</h1>
+    <p class="lede">Each entry gives the date, the original claim, what's true instead, and who caught it.</p>
+  </div>
+  <div class="empty">
+    <p class="big">Nothing logged yet.</p>
+    <p>The site is new. If you spot an error in anything here, <a href="#about">tell me</a> and it will appear on this page with credit.</p>
+  </div>
+</section>
+
+<!-- PREDICTIONS -->
+<section class="view" id="view-predictions" data-view="predictions" hidden>
+  <div class="page-head">
+    <p class="label">Predictions</p>
+    <h1>Yearly predictions</h1>
+    <p class="lede">Each January I'll publish predictions with probabilities, then score them the following January to check my calibration: about 70% of my 70% predictions should come true.</p>
+  </div>
+  <div class="empty">
+    <p class="big">First list: January 2027.</p>
+    <p>Scored in January 2028.</p>
+  </div>
+</section>
+
+<!-- CHANGELOG -->
+<section class="view" id="view-changelog" data-view="changelog" hidden>
+  <div class="page-head">
+    <p class="label">Changelog</p>
+    <h1>Site changelog</h1>
+    <p class="lede">New pages and revisions, newest first.</p>
+  </div>
+  <div class="log">
+    <div class="r"><span>23 Oct 2026</span><span>Site created: Home, Writing, Projects, Now, About, Mistakes, Predictions</span></div>  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Aldana Rodriguez · Berlin · Corrections welcome</span>
+    <nav aria-label="Footer">
+      <a href="#mistakes">Mistakes</a>
+      <a href="#predictions">Predictions</a>
+      <a href="#changelog">Changelog</a>
+      <a href="https://github.com/AldanaBRZ">GitHub</a>
+      <a href="https://x.com/AldanaBRZ">X (Twitter)</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var views = Array.prototype.slice.call(document.querySelectorAll('[data-view]'));
+  var names = views.map(function (v) { return v.getAttribute('data-view'); });
+  var navMap = {};
+  function show(name, scroll) {
+    if (names.indexOf(name) === -1) name = 'home';
+    views.forEach(function (v) { v.hidden = v.getAttribute('data-view') !== name; });
+    var active = navMap[name] || name;
+    document.querySelectorAll('[data-nav]').forEach(function (a) {
+      if (a.getAttribute('data-nav') === active) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    if (scroll) window.scrollTo(0, 0);
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var name = a.getAttribute('href').slice(1);
+    if (names.indexOf(name) === -1) return;
+    e.preventDefault();
+    try { history.replaceState(null, '', '#' + name); } catch (err) {}
+    show(name, true);
+  });
+  window.addEventListener('hashchange', function () { show(location.hash.slice(1), true); });
+  show((location.hash || '#home').slice(1), false);
+
+  var root = document.documentElement;
+  var themeBtns = Array.prototype.slice.call(document.querySelectorAll('[data-theme-choice]'));
+  function currentTheme() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'light' || t === 'dark') return t;
+    try { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch (err) { return 'light'; }
+  }
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-theme-choice') === t ? 'true' : 'false'); });
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('ar-theme'); } catch (err) {}
+  applyTheme(saved === 'light' || saved === 'dark' ? saved : currentTheme());
+  themeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-theme-choice');
+      applyTheme(t);
+      try { localStorage.setItem('ar-theme', t); } catch (err) {}
+    });
+  });
+
+  var btn = document.getElementById('copy-email');
+  var msg = document.getElementById('copy-msg');
+  var txt = document.getElementById('email-text');
+  btn.addEventListener('click', function () {
+    function selectIt() {
+      var r = document.createRange(); r.selectNodeContents(txt);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      msg.textContent = 'Selected. Press Ctrl+C or Cmd+C to copy.';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt.textContent).then(function () { msg.textContent = 'Copied'; }, selectIt);
+    } else { selectIt(); }
+  });
+})();
+</script>
+</body>
+</html>
